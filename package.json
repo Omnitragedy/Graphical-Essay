@@ -1,0 +1,35 @@
+{
+	"name": "ghost-skeleton",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@pixiv/three-vrm": "^3.3.6",
+		"@tweenjs/tween.js": "^18.6.4",
+		"detect-gpu": "^5.0.53",
+		"lil-gui": "^0.19.2",
+		"mitt": "^3.0.1",
+		"postprocessing": "^6.36.6",
+		"simplex-noise": "^4.0.3",
+		"three": "^0.172.0",
+		"three-mesh-bvh": "^0.8.3",
+		"tone": "^15.0.4",
+		"tweakpane": "^4.0.4",
+		"vite-plugin-mkcert": "^1.17.7",
+		"vue": "^3.5.12"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-vue": "^5.2.1",
+		"autoprefixer": "^10.4.20",
+		"dotenv-cli": "^8.0.0",
+		"fs-extra": "^11.3.0",
+		"postcss": "^8.4.47",
+		"tailwindcss": "^3.4.14",
+		"vite": "^6.0.2"
+	}
+}
