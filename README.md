@@ -1,5 +1,4 @@
-# Ghibli Grass
+# Graphical Essay
 
-This is the source code for a demo showing a method of rendering grass in three.js
+Source code for my supplemental essay for Wake Forest FM program
 
-I used it in my interactive experience ["to the Limbs"](https://create.viverse.com/TkZWCbJ)
