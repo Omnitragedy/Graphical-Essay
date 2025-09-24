@@ -1,6 +1,6 @@
 <template>
 	<Curtain :state="gameState">
-		<div class="h-full flex items-end justify-end">
+		<div class="h-full flex items-center justify-center">
 			<div
 				class="flex justify-end items-end bg-black transition duration-[2000ms]"
 				:class="{
@@ -12,7 +12,7 @@
 				<div class="px-8 py-4 h-full">
 					<div class="flex flex-col justify-between h-full">
 						<div>
-							<h1 class="text-white">Grass Demo</h1>
+							
 
 							<div
 								class="transiton-opacity duration-[2000ms] ease-in"
@@ -33,9 +33,14 @@
 		<LoadingBar :state="gameState" />
 	</Curtain>
 
+	<ExhibitPanel v-if="gameState == 'playing'"></ExhibitPanel>
+
 	<div>
 		<MobileControls v-if="isMobile && gameState == 'playing'"></MobileControls>
 	</div>
+
+	<!-- Text overlay for in-world prompts -->
+	<TextOverlay />
 </template>
 
 <script setup>
@@ -47,6 +52,8 @@ import Instructions from "./components/Instructions.vue";
 import { gameState } from "./game/State";
 import Settings from "./components/Settings.vue";
 import MobileControls from "./components/MobileControls.vue";
+import ExhibitPanel from "./components/ExhibitPanel.vue";
+import TextOverlay from "./components/TextOverlay.vue";
 import { useMobile } from "./composables/useMobile";
 
 const game = window.gameInstance;

@@ -5,11 +5,6 @@
 		@click="start()"
 	>
 		<span>Play</span>
-		<span class="text-xs normal-case"
-			>check your volume, music will start<br /><span v-if="!isMobile"
-				>Use WASD to move.</span
-			></span
-		>
 	</div>
 </template>
 

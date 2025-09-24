@@ -36,7 +36,7 @@ export default class Player {
 		this.isFlying = false;
 		this.isAutomoving = false;
 		this.isPortalling = false;
-		this.height = 1;
+		this.height = 2;
 
 		this.info = {
 			radius: 0.4,
@@ -164,7 +164,7 @@ export default class Player {
 
 			case "Space":
 				if (this.isOnGround === true) {
-					this.controls.jump();
+					// this.controls.jump();
 				}
 				break;
 
@@ -180,6 +180,15 @@ export default class Player {
 				this.controls.noclip = !this.controls.noclip;
 				this.controls.settings.headBobEnabled =
 					!this.controls.settings.headBobEnabled;
+				break;
+
+			case "KeyZ":
+				// hold-to-zoom: halve FOV while held
+				if (!this._zoomSavedFov) {
+					this._zoomSavedFov = this.camera.instance.fov;
+				}
+				this.camera.instance.fov = this._zoomSavedFov / 2;
+				this.camera.instance.updateProjectionMatrix();
 				break;
 
 			case "KeyH":
@@ -240,6 +249,15 @@ export default class Player {
 
 			case "KeyE":
 				this.moving.down = false;
+				break;
+
+			case "KeyZ":
+				// restore FOV on release
+				if (this._zoomSavedFov) {
+					this.camera.instance.fov = this._zoomSavedFov;
+					this.camera.instance.updateProjectionMatrix();
+					this._zoomSavedFov = null;
+				}
 				break;
 		}
 	};

@@ -13,15 +13,6 @@
 						<span>Enable VR</span>
 					</label>
 				</div>
-				<label class="flex space-x-1 items-center" v-show="!settings.vr">
-					<input
-						id="settings-fullscreen"
-						type="checkbox"
-						v-model="settings.fullscreen"
-						class="form-checkbox rounded text-pink-500"
-					/>
-					<span>Fullscreen</span>
-				</label>
 			</div>
 			<div class="flex space-x-2 items-center">
 				<select
@@ -35,6 +26,17 @@
 					</option>
 				</select>
 			</div>
+		</div>
+
+		<!-- Controls section -->
+		<div class="mt-3 p-3 bg-gray-800/50 rounded text-sm text-white">
+			<div class="font-semibold mb-2">Controls</div>
+			<ul class="list-disc list-inside space-y-1 text-xs text-gray-200">
+				<li>WASD or Arrow keys — Move</li>
+				<li>Mouse — Look around</li>
+				<li>Z (hold) — Zoom</li>
+				<li>Esc — Pause/unlock pointer</li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -68,8 +70,8 @@ onMounted(() => {
 });
 
 const qualitySettings = [
-	{ value: "high", label: "high quality" },
-	{ value: "medium", label: "medium quality" },
-	{ value: "low", label: "low quality" },
+	{ value: "high", label: "quality" },
+	{ value: "medium", label: "balanced" },
+	{ value: "low", label: "performance" },
 ];
 </script>

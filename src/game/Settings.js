@@ -1,9 +1,17 @@
 import { reactive, watch } from "vue";
 import { emitter } from "./Emitter";
 
+export const LAYERS = {
+	MAIN: 0,
+	ENVIRONMENT: 3,
+	BACKGROUND: 5,
+	INTERIOR: 6,
+	EXHIBIT: 7,
+};
+
 const savedSettings = {
 	fullscreen: true,
-	quality: "high",
+	quality: "low",
 	vr: false,
 };
 

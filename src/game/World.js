@@ -1,10 +1,10 @@
 import Game from "./Game";
 import * as THREE from "three";
 import { buildCollider } from "./utils/buildCollider";
-import levelModel from "#assets/models/level.glb?url";
-import GhibliGrass from "./environment/GhibliGrass";
+import levelModel from "#assets/models/test.glb?url";
 import heightMap from "#assets/textures/heightMap.png";
-import grassTexture from "#assets/textures/grass.jpg";
+import Exhibits from "./Exhibits";
+import TextTrigger from "./TextTrigger";
 
 export default class World {
 	constructor() {
@@ -13,7 +13,6 @@ export default class World {
 		this.assets = {
 			level: levelModel,
 			heightMap: heightMap,
-			grassTexture: grassTexture,
 		};
 
 		this.updatables = [];
@@ -27,9 +26,73 @@ export default class World {
 	}
 
 	async init() {
-		this.setCollider();
 
-		this.game.scene.background = new THREE.Color("purple");
+		// Nighttime sky: dark background + starfield (points) + low ambient lighting
+		// set a dark background color for a nighttime feel
+		this.game.scene.background = new THREE.Color(0x03020a);
+
+
+
+		// Basic scene lighting (single set of lights affecting the whole scene)
+		// simple hemisphere fill
+		const hemi = new THREE.HemisphereLight(0x111122, 0x000000, 0.25);
+		hemi.position.set(0, 50, 0);
+		this.scene.add(hemi);
+
+		// directional moon/key light
+		const moon = new THREE.DirectionalLight(0xddeeff, 0.25);
+		moon.position.set(-30, 40, 10);
+		moon.castShadow = false;
+		this.scene.add(moon);
+
+		// subtle ambient fill so the level isn't fully dark
+		const envAmbient = new THREE.AmbientLight(0xffffff, 0.08);
+		this.scene.add(envAmbient);
+
+		// create a starfield using Points so it stays in the far distance
+		const starCount = 1000;
+		const positions = new Float32Array(starCount * 3);
+		const radiusMin = 40;
+		const radiusRange = 300;
+
+		for (let i = 0; i < starCount; i++) {
+			// distribute on a sphere shell for even coverage
+			const u = Math.random();
+			const v = Math.random();
+			const theta = 2 * Math.PI * u;
+			const phi = Math.acos(2 * v - 1);
+			const r = radiusMin + Math.random() * radiusRange;
+
+			const x = r * Math.sin(phi) * Math.cos(theta);
+			const y = r * Math.cos(phi);
+			const z = r * Math.sin(phi) * Math.sin(theta);
+
+			positions[i * 3] = x;
+			positions[i * 3 + 1] = y;
+			positions[i * 3 + 2] = z;
+		}
+
+		const starsGeom = new THREE.BufferGeometry();
+		starsGeom.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+
+		const starsMat = new THREE.PointsMaterial({
+			color: 0xffffff,
+			size: 0.6,
+			sizeAttenuation: true,
+			transparent: true,
+			opacity: 0.9,
+			depthWrite: false,
+		});
+
+		const stars = new THREE.Points(starsGeom, starsMat);
+		this.scene.add(stars);
+
+		// subtle slow rotation for parallax movement (optional)
+		this.updatables.push({
+			tick: () => {
+				stars.rotation.y += 0.0005;
+			},
+		});
 
 		this.assets.heightMap.flipY = false;
 		this.assets.heightMap.colorSpace = THREE.SRGBColorSpace;
@@ -38,23 +101,26 @@ export default class World {
 		this.assets.heightMap.wrapS = this.assets.heightMap.wrapT =
 			THREE.MirroredRepeatWrapping;
 
-		this.assets.grassTexture.wrapS = this.assets.grassTexture.wrapT =
-			THREE.MirroredRepeatWrapping;
+
+		// (Removed layer-based Plane assignment — let model materials/light handle appearance)
 
 		this.scene.add(this.assets.level.scene);
 
-		this.setGrass();
+		// initialize exhibits manager (finds ExhibitAnchor_* nodes in the GLB)
+		this.exhibits = new Exhibits(this);
+		this.updatables.push(this.exhibits);
+
+		// initialize text triggers (finds TextTrigger... nodes in the GLB)
+		this.textTriggers = new TextTrigger(this);
+		this.updatables.push(this.textTriggers);
+
+		// rebuild collider after marking TextTrigger nodes as non-physical so the player can walk through them
+		this.setCollider();
+
 	}
 
 	tick() {}
 
-	setGrass() {
-		const landscapeMesh = this.assets.level.scene.getObjectByName("Landscape");
-		landscapeMesh.material = new THREE.MeshBasicMaterial({
-			wireframe: true,
-		});
-		this.grass = new GhibliGrass(landscapeMesh);
-	}
 
 	setCollider() {
 		this.game.player.controls.collider = buildCollider(this.assets.level.scene);
