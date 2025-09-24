@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { buildCollider } from "./utils/buildCollider";
 import levelModel from "#assets/models/test.glb?url";
 import heightMap from "#assets/textures/heightMap.png";
-import Exhibits from "./Exhibits";
 import TextTrigger from "./TextTrigger";
 
 export default class World {
@@ -106,9 +105,6 @@ export default class World {
 
 		this.scene.add(this.assets.level.scene);
 
-		// initialize exhibits manager (finds ExhibitAnchor_* nodes in the GLB)
-		this.exhibits = new Exhibits(this);
-		this.updatables.push(this.exhibits);
 
 		// initialize text triggers (finds TextTrigger... nodes in the GLB)
 		this.textTriggers = new TextTrigger(this);

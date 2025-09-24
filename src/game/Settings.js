@@ -11,7 +11,7 @@ export const LAYERS = {
 
 const savedSettings = {
 	fullscreen: true,
-	quality: "low",
+	quality: "medium",
 	vr: false,
 };
 
