@@ -16,7 +16,7 @@ export default class ResourceLoder {
 		this.textureLoader = new THREE.TextureLoader();
 		this.audioLoader = new THREE.AudioLoader();
 		this.dracoLoader = new DRACOLoader();
-		this.dracoLoader.setDecoderPath("/draco/");
+		this.dracoLoader.setDecoderPath(import.meta.env.BASE_URL + 'draco/');
 		this.gltfLoader.setDRACOLoader(this.dracoLoader);
 		this.loadDefaultAssets();
 		this.loadAssets();
