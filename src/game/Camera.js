@@ -29,6 +29,8 @@ export default class Camera {
 
 	setInstance() {
 		this.instance = new THREE.PerspectiveCamera();
+		this.listener = new THREE.AudioListener();
+		this.instance.add(this.listener);
 	}
 
 	zoomOut() {

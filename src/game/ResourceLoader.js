@@ -56,7 +56,7 @@ export default class ResourceLoder {
 			});
 		}
 
-		if (/mp3|wav/.test(fileExtension)) {
+		if (/mp3|wav|ogg/.test(fileExtension)) {
 			this.audioLoader.load(asset.url, (buffer) => {
 				this.game.world.assets[name] = buffer;
 				this.sourceLoaded(name);
@@ -96,6 +96,52 @@ export default class ResourceLoder {
 
 		if (this.loaded === this.toLoad) {
 			await this.game.world.init();
+
+			// Auto-start non-positional audio buffers (if any were loaded).
+			// Requires an AudioListener attached to the player's camera (Camera.js).
+			try {
+				const listener = this.game.player && this.game.player.camera && this.game.player.camera.listener;
+					if (listener) {
+					for (const [key, asset] of Object.entries(this.game.world.assets)) {
+						// Debug: announce asset inspection
+						console.log("ResourceLoader: inspecting asset for audio:", key, asset);
+						// Detect decoded AudioBuffer. Use instanceof when available, fallback to duck-typing.
+						const isAudioBuffer =
+							(typeof AudioBuffer !== "undefined" && asset instanceof AudioBuffer) ||
+							(asset && typeof asset.copyFromChannel === "function" && typeof asset.sampleRate === "number");
+						if (isAudioBuffer) {
+							console.log("ResourceLoader: audio buffer detected for", key);
+							const sound = new THREE.Audio(listener);
+							sound.setBuffer(asset);
+							sound.setLoop(true);
+							sound.setVolume(1.0);
+							// If the AudioContext is already running, attempt to play immediately.
+							// Otherwise queue the sound to be played after a user gesture resumes the context.
+							try {
+								const ctx = listener && listener.context;
+								if (ctx && ctx.state === "running") {
+									console.log("ResourceLoader: AudioContext running — playing", key);
+									sound.play();
+									console.log("ResourceLoader: sound.isPlaying for", key, sound.isPlaying);
+								} else {
+									// queue for later playback
+									this.game.world._queuedAudio = this.game.world._queuedAudio || [];
+									this.game.world._queuedAudio.push(sound);
+									console.log("ResourceLoader: queued sound for later playback:", key);
+								}
+							} catch (err) {
+								console.warn("Audio play/queue failed for", key, err);
+							}
+							// Keep reference so it can be controlled/stopped later.
+							this.game.world.assets[`${key}_audio`] = sound;
+						}
+					}
+				} else {
+					console.warn("No AudioListener found on player camera; loaded audio will not auto-play.");
+				}
+			} catch (err) {
+				console.error("Error while attempting to auto-play audio:", err);
+			}
 
 			gameState.value = "ready";
 		}

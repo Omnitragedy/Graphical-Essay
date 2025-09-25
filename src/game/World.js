@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { buildCollider } from "./utils/buildCollider";
 import levelModel from "#assets/models/test.glb?url";
 import heightMap from "#assets/textures/heightMap.png";
+import leCygneAudio from "#assets/models/Le_cygne.ogg?url";
 import TextTrigger from "./TextTrigger";
 
 export default class World {
@@ -12,6 +13,7 @@ export default class World {
 		this.assets = {
 			level: levelModel,
 			heightMap: heightMap,
+			Le_cygne: leCygneAudio
 		};
 
 		this.updatables = [];
