@@ -41,6 +41,12 @@
 
 	<!-- Text overlay for in-world prompts -->
 	<TextOverlay />
+	<!-- Zoom hint (top-left) -->
+	<div class="zoom-hint fixed top-4 left-4 z-60 pointer-events-none">
+		<div class="bg-black bg-opacity-70 text-white text-[22px] px-3 py-1 rounded select-none">
+      Hold Z to zoom
+    </div>
+	</div>
 </template>
 
 <script setup>
