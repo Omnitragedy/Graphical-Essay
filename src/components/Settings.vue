@@ -29,10 +29,10 @@
 		</div>
 
 		<!-- Controls section -->
-		<div class="mt-3 p-3 bg-gray-800/50 rounded text-sm text-white">
+		<div class="mt-3 p-3 bg-gray-800/100 rounded text-xl text-white">
 			<div class="font-semibold mb-2">Controls</div>
-			<ul class="list-disc list-inside space-y-1 text-xs text-gray-200">
-				<li>WASD or Arrow keys — Move</li>
+			<ul class="list-disc list-inside space-y-1 text-lg text-gray-200">
+				<li>Arrow keys or WASD — Move</li>
 				<li>Mouse — Look around</li>
 				<li>Z (hold) — Zoom</li>
 				<li>Esc — Pause/unlock pointer</li>

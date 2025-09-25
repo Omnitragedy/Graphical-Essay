@@ -1,9 +1,9 @@
 <template>
 	<div
-		class="btn btn-lg flex flex-col"
-		:class="{ disabled: state == 'loading' }"
-		@click="start()"
-	>
+    class="btn btn-lg flex flex-col transform scale-125"
+    :class="{ disabled: state == 'loading' }"
+    @click="start()"
+  >
 		<span>Play</span>
 	</div>
 </template>

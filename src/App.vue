@@ -43,9 +43,16 @@
 	<TextOverlay />
 	<!-- Zoom hint (top-left) -->
 	<div class="zoom-hint fixed top-4 left-4 z-60 pointer-events-none">
-		<div class="bg-black bg-opacity-70 text-white text-[22px] px-3 py-1 rounded select-none">
+    <div class="bg-black bg-opacity-70 text-white text-[22px] px-3 py-1 rounded select-none">
+      Walk towards the gray boxes for info (arrows are pointing toward them)
+    </div>
+    <div class="bg-black bg-opacity-70 text-white text-[18px] px-3 py-1 rounded select-none">
       Hold Z to zoom
     </div>
+    <div class="bg-black bg-opacity-70 text-white text-[18px] px-3 py-1 rounded select-none">
+      Arrow keys (or WASD) to walk
+    </div>
+
 	</div>
 </template>
 
