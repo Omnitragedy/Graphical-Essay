@@ -5,6 +5,8 @@ import mkcert from "vite-plugin-mkcert";
 
 // https://vite.dev/config/
 export default defineConfig({
+    base: process.env.NODE_ENV === 'production' ? '/Graphical-Essay/' : '',
+
 	plugins: [vue(), mkcert()],
 	resolve: {
 		alias: {

@@ -17,7 +17,7 @@ export const TEXT_TRIGGER_MAP = {
     aboutme: "My name is Saurav! I've lived in a lot of places, but I've spent most of my life in the Chicago area.",
     hobbies: "I love learning new skills. Here are some samples of my woodworking, leathercrafting, and a behind-the scenes of this current project.",
     travel: "I love to travel too; so many mysteries in this world. I want to uncover them all!",
-    thanks: "Thanks for walking through this display. Though we've finished here, the real-life journey doesn't end here. I hope you enjoyed it!",
+    thanks: "Thanks for walking through this display. Though we've finished here, the real-life journey doesn't end here. I hope you enjoyed it! (Press Esc to exit)",
   // Add more mappings: "myTriggerId": "Display text here",
 };
 
